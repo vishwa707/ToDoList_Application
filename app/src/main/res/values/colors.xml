@@ -1,0 +1,12 @@
+<!-- File Location: app/src/main/res/values/colors.xml -->
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryVariant">#3700B3</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorSecondary">#03DAC5</color>
+    <color name="colorSecondaryVariant">#018786</color>
+    <color name="colorOnSecondary">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="darkGray">#555555</color>
+</resources>
