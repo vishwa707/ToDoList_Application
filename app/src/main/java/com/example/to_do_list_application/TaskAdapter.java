@@ -1,6 +1,5 @@
 package com.example.to_do_list_application;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
