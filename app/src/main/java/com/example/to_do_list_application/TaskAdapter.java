@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.CollectionReference;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
@@ -23,34 +26,39 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     private Context context;
     private CollectionReference tasksRef; // Reference to Firestore tasks collection
 
-    public TaskAdapter(List<Task> tasks, Context context, CollectionReference tasksRef){
+    public TaskAdapter(List<Task> tasks, Context context, CollectionReference tasksRef) {
         this.tasks = tasks;
         this.context = context;
         this.tasksRef = tasksRef;
     }
 
-    public void updateTasks(List<Task> tasks){
+    public void updateTasks(List<Task> tasks) {
         this.tasks = tasks;
         notifyDataSetChanged();
     }
 
     @NonNull
     @Override
-    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
         return new TaskViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = tasks.get(position);
         holder.textTitle.setText(task.getTitle());
         holder.textDescription.setText(task.getDescription());
         holder.textPriority.setText(task.getPriority());
 
+        // Format timestamp
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
+        String formattedDate = sdf.format(new Date(task.getTimestamp()));
+        holder.timestampTextView.setText(formattedDate);
+
         // Set priority color and indicator
         int priorityColor;
-        switch(task.getPriority()){
+        switch (task.getPriority()) {
             case "High":
                 priorityColor = Color.RED;
                 break;
@@ -75,20 +83,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         // Handle Long Clicks for Delete
         holder.itemView.setOnLongClickListener(v -> {
-            // Show delete confirmation dialog
             new androidx.appcompat.app.AlertDialog.Builder(context)
                     .setTitle("Delete Task")
                     .setMessage("Are you sure you want to delete this task?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        if(task.getId() != null){
+                        if (task.getId() != null) {
                             tasksRef.document(task.getId())
                                     .delete()
-                                    .addOnSuccessListener(aVoid -> {
-                                        Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(context, "Error deleting task: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    });
+                                    .addOnSuccessListener(aVoid ->
+                                            Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(context, "Error deleting task: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                         }
                     })
                     .setNegativeButton("No", null)
@@ -98,20 +103,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     @Override
-    public int getItemCount(){
+    public int getItemCount() {
         return tasks.size();
     }
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
-        TextView textTitle, textDescription, textPriority;
+        TextView textTitle, textDescription, textPriority, timestampTextView;
         View viewPriorityIndicator;
 
-        public TaskViewHolder(@NonNull View itemView){
+        public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = itemView.findViewById(R.id.textTaskTitle);
             textDescription = itemView.findViewById(R.id.textTaskDescription);
             textPriority = itemView.findViewById(R.id.textTaskPriority);
             viewPriorityIndicator = itemView.findViewById(R.id.viewPriorityIndicator);
+            timestampTextView = itemView.findViewById(R.id.timestampTextView); // Ensure ID matches XML
         }
     }
 }

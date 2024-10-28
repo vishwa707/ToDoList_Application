@@ -9,16 +9,25 @@ public class Task {
     private String title;
     private String description;
     private String priority;
+    private long timestamp;
 
     // Required no-argument constructor for Firestore
     public Task() {}
 
-    public Task(String title, String description, String priority) {
+    public Task(String title, String description, String priority, long timestamp) {
         this.title = title;
         this.description = description;
         this.priority = priority;
+        this.timestamp = timestamp;
     }
 
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
     // Getters and Setters
 
     public String getId() { return id; }

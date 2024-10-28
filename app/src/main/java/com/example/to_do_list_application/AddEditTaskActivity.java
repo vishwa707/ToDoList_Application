@@ -88,10 +88,13 @@ public class AddEditTaskActivity extends AppCompatActivity {
             return;
         }
 
+        long timestamp = System.currentTimeMillis(); // Current time in milliseconds
+
         Map<String, Object> taskMap = new HashMap<>();
         taskMap.put("title", title);
         taskMap.put("description", description);
         taskMap.put("priority", priority);
+        taskMap.put("timestamp", timestamp); // Include timestamp
 
         if(taskId == null){
             // New Task

@@ -17,7 +17,6 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- Priority Indicator -->
         <View
             android:id="@+id/viewPriorityIndicator"
             android:layout_width="16dp"
@@ -32,7 +31,7 @@
             android:orientation="vertical"
             android:layout_weight="1">
 
-            <!-- Task Title -->
+
             <TextView
                 android:id="@+id/textTaskTitle"
                 android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/black" />
 
-            <!-- Task Description -->
+
             <TextView
                 android:id="@+id/textTaskDescription"
                 android:layout_width="wrap_content"
@@ -52,7 +51,7 @@
                 android:textColor="@color/darkGray"
                 android:layout_marginTop="4dp" />
 
-            <!-- Task Priority -->
+
             <TextView
                 android:id="@+id/textTaskPriority"
                 android:layout_width="wrap_content"
@@ -61,6 +60,13 @@
                 android:textSize="14sp"
                 android:textStyle="italic"
                 android:layout_marginTop="4dp" />
+            <TextView
+                android:id="@+id/timestampTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Created on: Date"
+                android:textSize="12sp"
+                android:textColor="#757575" />
 
         </LinearLayout>
     </LinearLayout>
